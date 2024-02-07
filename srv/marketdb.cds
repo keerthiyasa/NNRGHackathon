@@ -5,22 +5,19 @@ service MarketDB{
     entity Store as projection on db.Store;
     entity Product as projection on db.Product;
     entity Stock as projection on db.Stock;
-    entity State as projection on db.State
-   
+    entity State as projection on db.State;
+   entity Purchase as projection on db.Purchase
 }
-service TransactionDB{
-    entity Stock as projection on db.Stock;
-    entity Purchase as projection on db.Purchase;
-    
-}
+
 
 
 annotate MarketDB.Store with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with @odata.draft.enabled;
 
 annotate MarketDB.Product with @odata.draft.enabled;
-annotate TransactionDB.Stock with @odata.draft.enabled;
-annotate TransactionDB.Purchase with @odata.draft.enabled;
+annotate MarketDB.Stock with @odata.draft.enabled;
+
+annotate MarketDB.Purchase with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with {
   pin     @assert.format: '^\d{6}$';  
     
@@ -348,15 +345,12 @@ annotate MarketDB.Store with {
         }
     );
 }
-annotate TransactionDB.Stock with @(
+annotate MarketDB.Stock with @(
     UI.LineItem: [
+        
         {
             $Type : 'UI.DataField',
-            Value : ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Value :  store_ID
+            Value : store_ID
         },
         
         {
@@ -372,14 +366,11 @@ annotate TransactionDB.Stock with @(
     ],  
     //UI.SelectionFields: [ first_name , last_name, email_id,telephone,dob,age,gender ],
 );
-annotate TransactionDB.Stock with @(       
+annotate MarketDB.Stock with @(       
     UI.FieldGroup #StockInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            {
-            $Type : 'UI.DataField',
-            Value : ID
-        },
+            
         {
             $Type : 'UI.DataField',
             Value : product_ID.ID
@@ -404,93 +395,6 @@ annotate TransactionDB.Stock with @(
             ID : 'StockInfoFacet',
             Label : 'Stock Information',
             Target : '@UI.FieldGroup#StockInformation',
-        },
-        
-        
-    ],    
-);
-annotate TransactionDB.Purchase @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            Value : pono
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : bpno
-        },
-        
-        {
-            $Type : 'UI.DataField',
-            Value : pod
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : product_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : stock_qty
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : product_cost
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : store_ID
-        }
-        
-         
-    ],  
-    //UI.SelectionFields: [ first_name , last_name, email_id,telephone,dob,age,gender ],
-);
-annotate MarketDB.Product with @(       
-    UI.FieldGroup #PurchaseInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            Value : pono,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : bpno,
-        },
-        
-        {
-            $Type : 'UI.DataField',
-            Value : pod,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : product_ID,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : stock_qty,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : product_cost,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : store_ID,
-        }
-            
-            
-                      
-        ],
-    },
-
-
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchaseInfoFacet',
-            Label : 'Purchase Information',
-            Target : '@UI.FieldGroup#PurchaseInformation',
         },
         
         

@@ -73,8 +73,7 @@ entity Product : cuid, managed {
 
 
 entity Stock : cuid,managed{
-    @title:'ID'
-    key ID : UUID;
+    
     @title:'StoreID'
     store_ID: Association to Store;
     @title:'ProductID'

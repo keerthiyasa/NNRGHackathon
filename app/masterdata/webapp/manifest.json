@@ -122,18 +122,18 @@
                       "text": "IS_GSTN_Registered"
                     },
                     "is_vendorext": {
-                      "press": "masterdata.ext.is_vendorext.is_vendorext.is_vendor",
+                      "press": "masterdata.ext.is_vendorext.is_vendorext.SetVendor",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "is_vendor"
+                      "text": "Set Vendor"
                     },
                     "is_customer": {
-                      "press": "masterdata.ext.is_customer.is_customer.is_customer",
+                      "press": "masterdata.ext.is_customer.is_customer.SetCustomer",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "is_customer"
+                      "text": "Set Customer"
                     }
                   }
                 }
