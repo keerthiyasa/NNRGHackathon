@@ -1,8 +1,6 @@
 
-const cds=require('@sap/cds')
-module.exports = cds.service.impl(async function () {
-    const { Business_Partner } = this.entities;
-    this.on("READ", Business_Partner, async (req) => {
+
+    /*this.on("READ", Business_Partner, async (req) => {
         const results = await cds.run(req.query);
         return results;
       });
@@ -15,5 +13,35 @@ module.exports = cds.service.impl(async function () {
                 target: "gstn",
             });
         }
-    });
+    });*/
+    
+
+const cds = require('@sap/cds');
+module.exports = cds.service.impl(function () {
+
+    const { State, Product, Bussiness_Partner} = this.entities();
+
+    this.on('READ', State, async(req) => {
+        states = [
+            {"code":"TS", "description":"Telangana"},
+            {"code":"AP", "description":"AndhraPradesh"},
+            {"code":"UP", "description":"UttarPradesh"},
+            {"code":"MP", "description":"MadhyaPradesh"}
+        ]
+        states.$count=states.length;
+        return states;
+    })
+    
+    this.on(["CREATE", "UPDATE"], Product, async (req) => {
+    const { product_cost,product_sell } = req.data; // 
+
+  
+    if (product_sell <= product_cost) {
+        
+        throw new Error("Selling price must be greater than cost price.");
+    }
+
+    
+});
+   
 });

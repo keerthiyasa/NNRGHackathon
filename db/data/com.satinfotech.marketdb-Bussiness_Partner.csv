@@ -1,2 +1,2 @@
-bpno,city,name,state_ID,Address1,Address2,pin,gstn
-12,Hyderabad,keerthi,71344061-7ed1-4583-8dbe-cadcc18205b5,Hyderabad,Hyderabadyd,500088,789065
+bpno,city,name,Address1,Address2,pin,gstn
+12,Hyderabad,keerthi,Hyderabad,Hyderabadyd,500088,789065

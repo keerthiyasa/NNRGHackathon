@@ -5,24 +5,30 @@ service MarketDB{
     entity Store as projection on db.Store;
     entity Product as projection on db.Product;
     entity Stock as projection on db.Stock;
-    entity State as projection on db.State{
-        @UI.Hidden: true
-        ID,
-        *
-    };
+    entity State as projection on db.State
+   
+}
+service TransactionDB{
+    entity Stock as projection on db.Stock;
+    entity Purchase as projection on db.Purchase;
     
 }
 
 
 annotate MarketDB.Store with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with @odata.draft.enabled;
-annotate MarketDB.State with @odata.draft.enabled;
+
 annotate MarketDB.Product with @odata.draft.enabled;
-annotate MarketDB.Stock with @odata.draft.enabled;
+annotate TransactionDB.Stock with @odata.draft.enabled;
+annotate TransactionDB.Purchase with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with {
   pin     @assert.format: '^\d{6}$';  
     
 }
+annotate MarketDB.Product with {
+    product_img   @assert.formart: '^(https?|ftp):\/\/(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:\/[\w-./?%&=]*)?$';
+}
+
 
 annotate MarketDB.Bussiness_Partner with @(
     UI.LineItem: [
@@ -36,7 +42,7 @@ annotate MarketDB.Bussiness_Partner with @(
         },
         {
             Label:'State',
-            Value : state.description
+            Value : state
         },
         {
             $Type : 'UI.DataField',
@@ -84,7 +90,7 @@ annotate MarketDB.Bussiness_Partner with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : state_ID
+            Value : state
         },
         {
             $Type : 'UI.DataField',
@@ -143,7 +149,7 @@ annotate MarketDB.Store with @(
         },
         {
             Label:'State',
-            Value : state.code
+            Value : state
         },
         {
             $Type : 'UI.DataField',
@@ -179,7 +185,7 @@ annotate MarketDB.Store with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : state_ID
+            Value : state
         },
         {
             $Type : 'UI.DataField',
@@ -286,67 +292,42 @@ annotate MarketDB.Product with @(
 );
 
 annotate MarketDB.State with @(
-    UI.LineItem:[
-        {
-            Value: code
+    UI.LineItem: [
+       {
+            $Type : 'UI.DataField',
+            Value : code
         },
         {
-            Value: description
-        },
-        
+            $Type : 'UI.DataField',
+            Value : description
+        },  
     ],
-     UI.FieldGroup #StateInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : code,
-            },
-            {
-                Value : description,
-            },
-            
-            
-        ],
-    },
-    
-    UI.Facets : [
-        
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'StateInfoFacet',
-            Label : 'State Information',
-            Target : '@UI.FieldGroup#StateInformation',
-        },
-        
-    ],
-   
-
 );
-
 annotate MarketDB.Bussiness_Partner with {
     state @(     
         Common.ValueListWithFixedValues: true,
         Common.ValueList : {
-           Label: 'State',
+           Label: 'States',
             CollectionPath : 'State',
             Parameters     : [
-                  {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : state_ID,
-                    ValueListProperty : 'ID'
-                },
                 {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : state,
                     ValueListProperty : 'code'
                 },
+             
                 {
+
                     $Type             : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'description'
-                },
+                }
             ]
         }
-    );
-}
+    )
+};
+
+
+
 annotate MarketDB.Store with {
     state @(     
         Common.ValueListWithFixedValues: true,
@@ -354,11 +335,7 @@ annotate MarketDB.Store with {
            Label: 'State',
             CollectionPath : 'State',
             Parameters     : [
-                  {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : state_ID,
-                    ValueListProperty : 'ID'
-                },
+                  
                 {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty : 'code'
@@ -371,7 +348,7 @@ annotate MarketDB.Store with {
         }
     );
 }
-annotate MarketDB.Stock with @(
+annotate TransactionDB.Stock with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
@@ -379,12 +356,12 @@ annotate MarketDB.Stock with @(
         },
         {
             $Type : 'UI.DataField',
-            Value :  store_ID.ID
+            Value :  store_ID
         },
         
         {
             $Type : 'UI.DataField',
-            Value : product_ID.ID
+            Value : product_ID
         },
         {
             $Type : 'UI.DataField',
@@ -395,7 +372,7 @@ annotate MarketDB.Stock with @(
     ],  
     //UI.SelectionFields: [ first_name , last_name, email_id,telephone,dob,age,gender ],
 );
-annotate MarketDB.Stock with @(       
+annotate TransactionDB.Stock with @(       
     UI.FieldGroup #StockInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
@@ -427,6 +404,93 @@ annotate MarketDB.Stock with @(
             ID : 'StockInfoFacet',
             Label : 'Stock Information',
             Target : '@UI.FieldGroup#StockInformation',
+        },
+        
+        
+    ],    
+);
+annotate TransactionDB.Purchase @(
+    UI.LineItem: [
+        {
+            $Type : 'UI.DataField',
+            Value : pono
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : bpno
+        },
+        
+        {
+            $Type : 'UI.DataField',
+            Value : pod
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product_ID
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : stock_qty
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product_cost
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : store_ID
+        }
+        
+         
+    ],  
+    //UI.SelectionFields: [ first_name , last_name, email_id,telephone,dob,age,gender ],
+);
+annotate MarketDB.Product with @(       
+    UI.FieldGroup #PurchaseInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            $Type : 'UI.DataField',
+            Value : pono,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : bpno,
+        },
+        
+        {
+            $Type : 'UI.DataField',
+            Value : pod,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product_ID,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : stock_qty,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : product_cost,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : store_ID,
+        }
+            
+            
+                      
+        ],
+    },
+
+
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'PurchaseInfoFacet',
+            Label : 'Purchase Information',
+            Target : '@UI.FieldGroup#PurchaseInformation',
         },
         
         
