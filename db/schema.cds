@@ -6,10 +6,8 @@ using {managed, cuid } from '@sap/cds/common';
 }
 entity Bussiness_Partner: cuid ,managed {
     key cuid:UUID;
-    
-    
     @title:'Bussiness Partner Number' 
-    bpno:String(10) @mandatory;
+    bpno: String(5) @mandatory;
     @title:'City'
     city:String(10) @mandatory;
     @title:'Name'
@@ -73,7 +71,8 @@ entity Product : cuid, managed {
 
 
 entity Stock : cuid,managed{
-    
+    @title:'ID'
+    key ID : UUID;
     @title:'StoreID'
     store_ID: Association to Store;
     @title:'ProductID'

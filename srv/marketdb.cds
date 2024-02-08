@@ -375,15 +375,15 @@ annotate MarketDB.Stock with @(
             
         {
             $Type : 'UI.DataField',
-            Value : product_ID.ID
+            Value : product_ID.code,
         },
         {
             $Type : 'UI.DataField',
-            Value : store_ID.ID
+            Value : store_ID.code,
         },
         {
             $Type : 'UI.DataField',
-            Value : stock_qty
+            Value : stock_qty,
         }
             
                       

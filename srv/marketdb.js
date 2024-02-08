@@ -53,9 +53,16 @@ module.exports = cds.service.impl(function () {
         
         throw new Error("Selling price must be greater than cost price.");
     }
+    });
+    /*this.on(["CREATE", "UPDATE"], Bussiness_Partner, async (req) => {
+        
+        const highestBpno = await cds.run(SELECT.one("bpno").orderBy({ bpno: 'desc' }).from(Bussiness_Partner));
+        let newBpno = 1; 
+        if (highestBpno) {
+            newBpno = parseInt(highestBpno.bpno) + 1;
+        }
 
+        req.data.bpno = newBpno;
     
-});
-
-   
+    });*/
 });
