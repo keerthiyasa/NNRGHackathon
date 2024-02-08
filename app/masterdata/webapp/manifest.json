@@ -1,5 +1,5 @@
 {
-  "_version": "1.59.0",
+  "_version": "1.1.0",
   "sap.app": {
     "id": "masterdata",
     "type": "application",
@@ -102,6 +102,7 @@
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
+              "initialLoad": "Enabled",
               "contextPath": "/Bussiness_Partner",
               "variantManagement": "Page",
               "navigation": {
@@ -115,21 +116,14 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "actions": {
                     "Bussiness_PartnerListExt": {
-                      "press": "masterdata.ext.bussiness_PartnerListExt.Bussiness_PartnerListExt.is_gstn_registered",
-                      "visible": true,
-                      "enabled": true,
-                      "requiresSelection": true,
-                      "text": "IS_GSTN_Registered"
-                    },
-                    "is_vendorext": {
-                      "press": "masterdata.ext.is_vendorext.is_vendorext.SetVendor",
+                      "press": "masterdata.ext.bussiness_PartnerListExt.Bussiness_PartnerListExt.SetVendor",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
                       "text": "Set Vendor"
                     },
-                    "is_customer": {
-                      "press": "masterdata.ext.is_customer.is_customer.SetCustomer",
+                    "Bussiness_PartnerListExt2": {
+                      "press": "masterdata.ext.bussiness_PartnerListExt.Bussiness_PartnerListExt.SetCustomer",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,

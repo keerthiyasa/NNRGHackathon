@@ -15,8 +15,6 @@ sap.ui.define([
                 }).then(element.requestRefresh());
             });
         },
-        
-
         SetCustomer: function(oBindingContext,aSelectedContexts) {       
             aSelectedContexts.forEach(element => {
                MessageToast.show(element.sPath);
@@ -24,22 +22,10 @@ sap.ui.define([
                    type: "PATCH",
                    contentType: "application/json",
                    url: "/odata/v4/market-db"+element.sPath,
-                   data: JSON.stringify({is_customer:false})
+                   data: JSON.stringify({is_vendor:false})
                }).then(element.requestRefresh());
            });
-       },
-       /*GetCustomer: async function(oBindingContext,aSelectedContexts) { 
-        if(aSelectedContexts.length>1){
-        return false;
-        }
-        var aData = await jQuery.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/odata/v4/market-db"+aSelectedContexts[0].sPath,
-        })
-        return aData.is_vendor;
-        
-    },*/
+       }
     }
 }
 )
