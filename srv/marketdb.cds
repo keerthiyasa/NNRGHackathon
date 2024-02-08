@@ -20,6 +20,8 @@ annotate MarketDB.Stock with @odata.draft.enabled;
 annotate MarketDB.Purchase with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with {
   pin     @assert.format: '^\d{6}$';  
+  gstn   @assert.format:'^\d{2}[A-Z]{5}\d{4}[A-Z]\d{1}[A-Z\d]{1}$'
+
     
 }
 annotate MarketDB.Product with {

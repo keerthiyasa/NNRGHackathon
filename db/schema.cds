@@ -23,7 +23,7 @@ entity Bussiness_Partner: cuid ,managed {
     @title:'PIN Code'
     pin :String(40) @mandatory;
     @title:'GSTIN Number'
-    gstn:String(10);
+    gstn:String(15);
     @title:'Is gstn Registered'
     is_gstn_registered: Boolean default false;
     @title:'Is Vendor'
