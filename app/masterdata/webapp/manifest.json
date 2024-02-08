@@ -122,8 +122,8 @@
                       "requiresSelection": true,
                       "text": "Set Vendor"
                     },
-                    "Bussiness_PartnerListExt2": {
-                      "press": "masterdata.ext.bussiness_PartnerListExt.Bussiness_PartnerListExt.SetCustomer",
+                    "Bussiness_PartnerListExtension": {
+                      "press": "masterdata.ext.bussiness_PartnerListExtension.Bussiness_PartnerListExtension.SetCustomer",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
