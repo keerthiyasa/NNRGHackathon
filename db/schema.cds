@@ -39,8 +39,8 @@ entity State {
     
 }
 entity Store : cuid, managed {
-    @title: 'Store ID'
-    store_ID: String(20) @mandatory;
+    @title: 'StoreID'
+    store: Association to StoreID;
     @title: 'Name'
     name: String(20) @mandatory;
     @title: 'Address1'  
@@ -50,7 +50,7 @@ entity Store : cuid, managed {
     @title:'City'
     city:String(40)   @mandatory;
     @title: 'State'
-    state:String(10);
+    state:String(10) @mandatory;
     @title: 'PIN Code.'
     pin: String(20)    @mandatory;
 }
@@ -58,7 +58,7 @@ entity Store : cuid, managed {
 
 entity Product : cuid, managed {
     @title: 'Product ID'
-    product_ID: String(20) @mandatory;
+    product: Association to ProductID;
     @title: 'Product Name'
     product_name: String(20) @mandatory;
     @title: 'Product Image URL'
@@ -71,13 +71,12 @@ entity Product : cuid, managed {
 
 
 entity Stock : cuid,managed{
-    @title:'ID'
-    key ID : UUID;
+    
     @title:'StoreID'
-    store_ID: Association to Store;
+    store: Association to StoreID;
     @title:'ProductID'
-    product_ID : Association to Product;
-    @title:'StockQuality'
+    product : Association to ProductID;
+    @title:'StockQuantity'
     stock_qty : Integer;
 }
 entity Purchase : cuid,managed{
@@ -110,4 +109,16 @@ entity Purchase : cuid,managed{
        store_ID: Association to Store;
      }
 
+}
+entity StoreID : cuid,managed{
+    @title:'code'
+    key code : String(10);
+    @title:'Description'
+    description: String(10);
+}
+entity ProductID : cuid,managed{
+    @title:'code'
+    key code : String(10);
+    @title:'Description'
+    description: String(10);
 }

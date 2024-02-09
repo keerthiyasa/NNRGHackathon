@@ -103,6 +103,7 @@
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
+              "InitialLoad":"Enabled",
               "contextPath": "/Stock",
               "variantManagement": "Page",
               "navigation": {
