@@ -45,8 +45,8 @@ module.exports = cds.service.impl(function () {
         return states;
     });
     
-    this.on(["CREATE", "UPDATE"], Product, async (req) => {
-    const { product_cost,product_sell } = req.data; // 
+    this.on(["CREATE"], Product, async (req) => {
+    const { product_sell,product_cost } = req.data; // 
 
   
     if (product_sell <= product_cost) {
