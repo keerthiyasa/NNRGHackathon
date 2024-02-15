@@ -6,7 +6,7 @@
 const cds = require('@sap/cds');
 module.exports = cds.service.impl(function () {
 
-    const { State, Product, Bussiness_Partner} = this.entities();
+    const { State, Product, Bussiness_Partner,Purchase} = this.entities();
     this.on("READ", Bussiness_Partner, async (req) => {
         const results = await cds.run(req.query);
         return results;
@@ -32,6 +32,22 @@ module.exports = cds.service.impl(function () {
             });
         }
     });
+    this.on("READ", Product, async (req) => {
+        const results = await cds.run(req.query);
+        return results;
+      });
+    this.before(['CREATE'], Product, async(req) => {
+        
+        const { product_sell, product_cost } = req.data;
+        if (product_sell <= product_cost ) {
+            req.error({
+                'code': 'INVALID_SELLING_PRICE',
+                'message': 'Selling price must be greater than the cost price',
+                'target': 'product_sell'
+            });
+        }
+    });
+    
     
 
     this.on('READ', State, async(req) => {
@@ -45,24 +61,12 @@ module.exports = cds.service.impl(function () {
         return states;
     });
     
-    this.on(["CREATE"], Product, async (req) => {
-    const { product_sell,product_cost } = req.data; // 
-
-  
-    if (product_sell <= product_cost) {
         
-        throw new Error("Selling price must be greater than cost price.");
-    }
-    });
-    /*this.on(["CREATE", "UPDATE"], Bussiness_Partner, async (req) => {
-        
-        const highestBpno = await cds.run(SELECT.one("bpno").orderBy({ bpno: 'desc' }).from(Bussiness_Partner));
-        let newBpno = 1; 
-        if (highestBpno) {
-            newBpno = parseInt(highestBpno.bpno) + 1;
-        }
-
-        req.data.bpno = newBpno;
-    
-    });*/
 });
+    
+    
+    
+    
+    
+    
+

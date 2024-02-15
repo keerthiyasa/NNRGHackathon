@@ -64,9 +64,9 @@ entity Product : cuid, managed {
     @title: 'Product Image URL'
     product_img: String(20);
     @title: 'Product Cost Price'
-    product_cost: String(20) ;
+    product_cost: Integer;
     @title: 'Product Sell Price'
-    product_sell: String(20) ;
+    product_sell: Integer ;
 }
 entity Stock : cuid, managed {
     @title: 'StoreID'
@@ -107,12 +107,14 @@ entity Purchase : cuid, managed {
     Unique_SID: Composition of many{
         key ID:UUID;
         store_id:Association to Unique_SID;
-    } 
-    @title:'Price'
+    }
+    @title: 'Price'  
+    price:Integer; 
+    /*@title:'Price'
     Unique_Price: Composition of many{
         key ID:UUID;
-        product_cost:Association to Unique_Price;
-    } 
+        price:Association to Unique_Price;
+    } */
     @title:'Quantity'
     Unique_Qty: Composition of many{
         key ID:UUID;
@@ -125,12 +127,12 @@ entity Unique_BPNUM : cuid, managed {
     @title: 'description'
     description: String;
 }
-entity Unique_Price : cuid, managed {
+/*entity Unique_Price : cuid, managed {
     @title: 'code'
     code: String;
     @title: 'description'
     description: String;
-}
+}*/
 entity Unique_Qty : cuid, managed {
     @title: 'code'
     code: String;

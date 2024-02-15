@@ -8,7 +8,7 @@ service MarketDB{
     entity Unique_SID as projection on db.Unique_SID;
     entity Unique_PID as projection on db.Unique_PID;
     entity Unique_BPNUM as projection on db.Unique_BPNUM;
-    entity Unique_Price as projection on db.Unique_Price;
+    //entity Unique_Price as projection on db.Unique_Price;
     entity Unique_Qty as projection on db.Unique_Qty;
     
     entity Product as projection on db.Product;
@@ -26,10 +26,15 @@ annotate MarketDB.Purchase with @odata.draft.enabled;
 annotate MarketDB.Stock with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with {
   pin     @assert.format: '^\d{6}$';  
-  gstn   @assert.format:'^\d{2}[A-Z]{5}\d{4}[A-Z]\d{1}[A-Z\d]{1}$'
+  gstn   @assert.format:'^\d{2}[A-Z]{5}\d{4}[A-Z]\d{1}[A-Z\d]{1}$';
 }
 annotate MarketDB.Product with {
-    product_img   @assert.format: '^(https?|ftp):\/\/(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:\/[\w-./?%&=]*)?$';
+    product_img   @assert.format: '^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$';
+
+}
+annotate MarketDB.Store with {
+  pin     @assert.format: '^\d{6}$';  
+  
 }
 
 
@@ -139,6 +144,10 @@ annotate MarketDB.Bussiness_Partner with @(
         
     ],    
 );
+
+
+
+
 annotate MarketDB.Store with @(
     UI.LineItem: [
         {
@@ -368,8 +377,8 @@ annotate MarketDB.Purchase with @(
         },
         {
             $Type : 'UI.DataField',
-            Label:'Product Cost',
-            Value : Unique_Price.product_cost.description
+            
+            Value : price
         },
         {
             $Type : 'UI.DataField',
@@ -407,8 +416,8 @@ annotate MarketDB.Purchase with @(
         },
         {
             $Type : 'UI.DataField',
-            Label:'ProductCost',
-            Value : Unique_Price.product_cost_ID
+            
+            Value : price
         },
         {
             $Type : 'UI.DataField',
@@ -481,11 +490,11 @@ annotate MarketDB.Purchase.Unique_BPNUM with @(
         },
     ],  
 );
-annotate MarketDB.Purchase.Unique_Price with @(
+/*annotate MarketDB.Purchase.Unique_Price with @(
     UI.LineItem:[
         {
             Label: 'Bussiness Partner',
-            Value: product_cost_ID
+            Value: price_ID
         },
        
     ],
@@ -494,7 +503,7 @@ annotate MarketDB.Purchase.Unique_Price with @(
         $Type : 'UI.FieldGroupType',
         Data : [
             {
-                Value : product_cost_ID,
+                Value : price_ID,
             }
         ],
     },
@@ -506,11 +515,11 @@ annotate MarketDB.Purchase.Unique_Price with @(
             Target : '@UI.FieldGroup#PurchasePrice',
         },
     ],  
-);
+);*/
 annotate MarketDB.Purchase.Unique_PID with @(
     UI.LineItem:[
         {
-            Label: 'StoreID',
+            Label: 'ProductID',
             Value: product_id_ID
         },
        
@@ -691,7 +700,7 @@ annotate MarketDB.Unique_BPNUM with @(
         
     ],    
 );
-annotate MarketDB.Unique_Price with @(
+/*annotate MarketDB.Unique_Price with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
@@ -734,7 +743,7 @@ annotate MarketDB.Unique_Price with @(
         
         
     ],    
-);
+);*/
 annotate MarketDB.Unique_PID with @(
     UI.LineItem: [
         {
@@ -869,18 +878,18 @@ annotate MarketDB.Purchase.Unique_BPNUM with {
         }
     )
 };
-annotate MarketDB.Purchase.Unique_Price with {
-    product_cost @(
-        Common.Text: product_cost.description,
+/*annotate MarketDB.Purchase.Unique_Price with {
+    price @(
+        Common.Text: price.description,
         Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
+        //Common.ValueListWithFixedValues: true,
         Common.ValueList : {
             Label: 'Product Price',
             CollectionPath : 'Unique_Price',
             Parameters: [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : product_cost_ID,
+                    LocalDataProperty : price_ID,
                     ValueListProperty : 'ID'
                 },
                 {
@@ -894,7 +903,7 @@ annotate MarketDB.Purchase.Unique_Price with {
             ]
         }
     )
-};
+};*/
 annotate MarketDB.Purchase.Unique_PID with {
     product_id @(
         Common.Text: product_id.description,
