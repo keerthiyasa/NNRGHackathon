@@ -1,4 +1,4 @@
-# Getting Started
+[![HitCount](https://hits.dwyl.com/keerthiyasa/https://githubcom/keerthiyasa/NNRGHackathon.svg?style=flat-square)](http://hits.dwyl.com/keerthiyasa/https://githubcom/keerthiyasa/NNRGHackathon)# Getting Started
 
 Welcome to your new project.
 
