@@ -5,11 +5,27 @@ service MarketDB{
     entity Store as projection on db.Store;
     entity Stock as projection on db.Stock;
     entity Purchase as projection on db.Purchase;
-    entity Unique_SID as projection on db.Unique_SID;
-    entity Unique_PID as projection on db.Unique_PID;
-    entity Unique_BPNUM as projection on db.Unique_BPNUM;
+    entity Unique_SID as projection on db.Unique_SID{
+        @UI.Hidden: true
+        ID,
+        *
+    };
+    entity Unique_PID as projection on db.Unique_PID{
+        @UI.Hidden: true
+        ID,
+        *
+    };
+    entity Unique_BPNUM as projection on db.Unique_BPNUM{
+        @UI.Hidden: true
+        ID,
+        *
+    };
     //entity Unique_Price as projection on db.Unique_Price;
-    entity Unique_Qty as projection on db.Unique_Qty;
+    entity Unique_Qty as projection on db.Unique_Qty{
+        @UI.Hidden: true
+        ID,
+        *
+    };
     
     entity Product as projection on db.Product;
     
@@ -42,6 +58,7 @@ annotate MarketDB.Bussiness_Partner with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
+            Label:'Bussiness Partner Number',
             Value : bpno.code
         },
         {
@@ -1137,7 +1154,7 @@ annotate MarketDB.Product with {
     @Core.IsURL:true
     @Core.MediaType:'image/jpg' 
     product_img
-}
+};
 
 
 

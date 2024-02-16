@@ -9,17 +9,17 @@ entity Bussiness_Partner: cuid ,managed {
     @title:'Bussiness Partner Number' 
     bpno: Association to Unique_BPNUM;
     @title:'City'
-    city:String(10) @mandatory;
+    city:String(10) ;
     @title:'Name'
-    name: String(40) @mandatory;
+    name: String(40) ;
     @title:'State'
     state: String(10);
     @title:'Address1'
-    Address1:String(40) @mandatory;
+    Address1:String(40) ;
     @title:'Address2'
     Address2:String(40);
     @title:'PIN Code'
-    pin :String(40) @mandatory;
+    pin :String(40) ;
     @title:'GSTIN Number'
     gstn:String(15);
     @title:'Is gstn Registered'
