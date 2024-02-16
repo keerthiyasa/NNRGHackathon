@@ -242,7 +242,7 @@ annotate MarketDB.Product with @(
             Value : product_name
         },
         {
-            Label:'State',
+            $Type : 'UI.DataField',
             Value : product_img
         },
         {
@@ -311,7 +311,8 @@ annotate MarketDB.Stock with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : stock_qty
+            Label:'Stock Quantity',
+            Value : stock_qty.code
         }
     ],  
 );
@@ -331,7 +332,7 @@ annotate MarketDB.Stock with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : stock_qty
+            Value : stock_qty_ID
         }
         
         ],
@@ -826,6 +827,32 @@ annotate MarketDB.Stock  with {
         }
     )
 };
+annotate MarketDB.Stock  with {
+    stock_qty @(
+        Common.Text: stock_qty.description,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Stock QTY',
+            CollectionPath : 'Unique_Qty',
+            Parameters: [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : stock_qty_ID,
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'code'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'description'
+                },
+            ]
+        }
+    )
+};
 annotate MarketDB.Purchase.Unique_SID with {
     store_id @(
         Common.Text: store_id.description,
@@ -1105,6 +1132,12 @@ annotate MarketDB.Store with {
         }
     )
 };
+annotate MarketDB.Product with {
+    @Common.Text:'{Product}'
+    @Core.IsURL:true
+    @Core.MediaType:'image/jpg' 
+    product_img
+}
 
 
 

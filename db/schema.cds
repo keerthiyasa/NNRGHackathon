@@ -62,7 +62,7 @@ entity Product : cuid, managed {
     @title: 'Product Name'
     product_name: String(20) ;
     @title: 'Product Image URL'
-    product_img: String(20);
+    product_img: String;
     @title: 'Product Cost Price'
     product_cost: Integer;
     @title: 'Product Sell Price'
@@ -74,7 +74,7 @@ entity Stock : cuid, managed {
     @title: 'ProductID'
     product_id: Association to Unique_PID ;
     @title: 'Stock QTY'  
-    stock_qty:Integer;
+    stock_qty:Association to Unique_Qty;
 }
 entity Unique_SID : cuid, managed {
     @title: 'code'

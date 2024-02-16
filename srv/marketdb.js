@@ -21,6 +21,8 @@ module.exports = cds.service.impl(function () {
             });
         }
     });
+    
+
     this.before("CREATE",  Bussiness_Partner, async (req) => {
         const { is_gstn_registered, gstn } = req.data;
     
@@ -60,8 +62,32 @@ module.exports = cds.service.impl(function () {
         states.$count=states.length;
         return states;
     });
+    const cds = require('@sap/cds');
+
+    module.exports = cds.service.impl(async (srv) => {
+        const { Purchase, Unique_BPNUM } = srv.entities;
     
-        
+        this.before('CREATE', 'Purchase', async (req) => {
+            const { Unique_BPNUM: businessPartner } = req.data;
+            
+            // Fetch the business partner to check if it is a vendor
+            const tx = cds.transaction(req);
+            const fetchedBusinessPartner = await tx.read(Unique_BPNUM).where({ ID: businessPartner.ID });
+            
+            if (!fetchedBusinessPartner || fetchedBusinessPartner.is_vendor !== 'yes') {
+                req.error({
+                    code: 'INVALID_BUSINESS_PARTNER',
+                    message: 'Business partner is not a vendor',
+                    target: 'Unique_BPNUM'
+                });
+            }
+        });
+    
+        this.on('CREATE', 'Purchase', async (req) => {
+            return await cds.transaction(req).run(req);
+        });
+    });
+      
 });
     
     
