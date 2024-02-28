@@ -143,7 +143,7 @@ module.exports = cds.service.impl(function () {
         }
     
     });
-    /*this.before('CREATE', Bussiness_Partner, async (req) => {
+    this.before('CREATE', Bussiness_Partner, async (req) => {
         console.log('Before-create hook triggered for Business Partner entity');
 
         // Check if this is the first entry
@@ -157,24 +157,8 @@ module.exports = cds.service.impl(function () {
 
         // Update bpno in the request data
         req.data.bpno = nextBpno;
-    });*/
-    this.before('UPDATE', Bussiness_Partner, async (req) => {
-        console.log('Before-update hook triggered for Business Partner entity');
-
-        // Check if bpno is being modified
-        if (req.data.bpno !== undefined) {
-            // Retrieve the existing bpno
-            const existingRecord = await cds.tx(req).run(SELECT.one.from(Bussiness_Partner).where({ bpno: req.data.bpno }));
-            // If there is an existing record with the same bpno, prevent modification
-            if (existingRecord) {
-                req.error({
-                    'code': 'BPNO_MODIFICATION_NOT_ALLOWED',
-                    'message': 'Modification of bpno is not allowed',
-                    'target': 'bpno'
-                });
-            }
-        }
     });
+    
 
     
     this.on('READ', State, async(req) => {
@@ -189,18 +173,6 @@ module.exports = cds.service.impl(function () {
     });
 });   
     
-
-    
-
-
-
-
-    
-    
-    
-
-
-
 
 
 
