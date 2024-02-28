@@ -1,45 +1,44 @@
 
 using { com.satinfotech.marketdb as db } from '../db/schema';
 service MarketDB{
-    entity Bussiness_Partner as projection on db.Bussiness_Partner;
-    entity Store as projection on db.Store;
-    entity Stock as projection on db.Stock;
-    entity Purchase as projection on db.Purchase;
-    entity Unique_SID as projection on db.Unique_SID{
+    entity Bussiness_Partner as projection on db.Bussiness_Partner{
         @UI.Hidden: true
         ID,
         *
     };
-    entity Unique_PID as projection on db.Unique_PID{
-        @UI.Hidden: true
-        ID,
-        *
-    };
-    entity Unique_BPNUM as projection on db.Unique_BPNUM{
-        @UI.Hidden: true
-        ID,
-        *
-    };
-    //entity Unique_Price as projection on db.Unique_Price;
-    entity Unique_Qty as projection on db.Unique_Qty{
+    entity Store as projection on db.Store{
         @UI.Hidden: true
         ID,
         *
     };
     
-    entity Product as projection on db.Product;
+    entity Stock as projection on db.Stock{
+        @UI.Hidden: true
+        ID,
+        *
+    };
+    
+    entity Purchase as projection on db.Purchase;
+    entity Sales as projection on db.Sales;
+    
+    
+   entity Product as projection on db.Product{
+        @UI.Hidden: true
+        ID,
+        *
+    };
+   
     
     entity State as projection on db.State;
    
 }
 annotate MarketDB.Store with @odata.draft.enabled;
-annotate MarketDB.Unique_SID with @odata.draft.enabled;
-annotate MarketDB.Unique_PID with @odata.draft.enabled;
-annotate MarketDB.Unique_BPNUM with @odata.draft.enabled;
+
 annotate MarketDB.Bussiness_Partner with @odata.draft.enabled;
 annotate MarketDB.Product with @odata.draft.enabled;
 annotate MarketDB.Purchase with @odata.draft.enabled;
 annotate MarketDB.Stock with @odata.draft.enabled;
+annotate MarketDB.Sales with @odata.draft.enabled;
 annotate MarketDB.Bussiness_Partner with {
   pin     @assert.format: '^\d{6}$';  
   gstn   @assert.format:'^\d{2}[A-Z]{5}\d{4}[A-Z]\d{1}[A-Z\d]{1}$';
@@ -59,7 +58,7 @@ annotate MarketDB.Bussiness_Partner with @(
         {
             $Type : 'UI.DataField',
             Label:'Bussiness Partner Number',
-            Value : bpno.code
+            Value : bpno
         },
         {
             $Type : 'UI.DataField',
@@ -106,7 +105,7 @@ annotate MarketDB.Bussiness_Partner with @(
         Data : [
             {
             $Type : 'UI.DataField',
-            Value : bpno_ID
+            Value : bpno
         },
         {
             $Type : 'UI.DataField',
@@ -170,7 +169,7 @@ annotate MarketDB.Store with @(
         {
             $Type : 'UI.DataField',
             Label:'StoreID',
-            Value : store_id.code
+            Value : store_id
         },
         {
             $Type : 'UI.DataField',
@@ -205,7 +204,7 @@ annotate MarketDB.Store with @(
             {
             $Type : 'UI.DataField',
             
-            Value : store_id_ID
+            Value : store_id
         },
         {
             $Type : 'UI.DataField',
@@ -252,7 +251,7 @@ annotate MarketDB.Product with @(
         {
             $Type : 'UI.DataField',
             Label:'ProductID',
-            Value : product_id.code
+            Value : product_id
         },
         {
             $Type : 'UI.DataField',
@@ -279,7 +278,7 @@ annotate MarketDB.Product with @(
             {
             $Type : 'UI.DataField',
             
-            Value : product_id_ID
+            Value : product_id
         },
         {
             $Type : 'UI.DataField',
@@ -319,7 +318,7 @@ annotate MarketDB.Stock with @(
         {
             $Type : 'UI.DataField',
             Label:'StoreID',
-            Value : store_id.code
+            Value : store_id_ID
         },
         {
             $Type : 'UI.DataField',
@@ -329,7 +328,7 @@ annotate MarketDB.Stock with @(
         {
             $Type : 'UI.DataField',
             Label:'Stock Quantity',
-            Value : stock_qty.code
+            Value : stock_qty
         }
     ],  
 );
@@ -349,7 +348,7 @@ annotate MarketDB.Stock with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : stock_qty_ID
+            Value : stock_qty
         }
         
         ],
@@ -376,436 +375,156 @@ annotate MarketDB.Purchase with @(
         },
         {
             $Type : 'UI.DataField',
-            Label:'Bussiness partner',
-            Value : Unique_BPNUM.bpno.description
+            Value : bpno_ID
         },
         {
             $Type : 'UI.DataField',
             Value : pod
         },
-        {
-            $Type : 'UI.DataField',
-            Label:'Product ID',
-            Value : Unique_PID.product_id.description
-        },
-        {
-            $Type : 'UI.DataField',
-            Label:'Store ID',
-            Value : Unique_SID.store_id.description
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : price
-        },
-        {
-            $Type : 'UI.DataField',
-            Label:'Stock Qunatity',
-            Value : Unique_Qty.stock_qty.description
-        }
-    ],  
+    ],
+    UI.SelectionFields: [ ],       
 );
-annotate MarketDB.Purchase with @(       
+
+annotate MarketDB.Purchase with @(
     UI.FieldGroup #PurchaseInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            {
+             {
             $Type : 'UI.DataField',
             Value : pono
         },
         {
             $Type : 'UI.DataField',
-            Label:'Bussiness Partner',
-            Value : Unique_BPNUM.bpno_ID
+            Value : bpno_ID
         },
         {
             $Type : 'UI.DataField',
             Value : pod
         },
-        {
-            $Type : 'UI.DataField',
-            Label:'ProductID',
-            Value : Unique_PID.product_id_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Label:'StoreID',
-            Value : Unique_SID.store_id_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : price
-        },
-        {
-            $Type : 'UI.DataField',
-            Label:'Stock Quantity',
-            Value : Unique_Qty.stock_qty_ID
-        }
-        
         ],
     },
-
-
-    UI.Facets : [
+   UI.Facets : [
         {
             $Type : 'UI.ReferenceFacet',
             ID : 'PurchaseInfoFacet',
-            Label : 'PurchaseInformation',
+            Label : 'Purchase Information',
             Target : '@UI.FieldGroup#PurchaseInformation',
-        },    
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'PurchaseItemsFacet',
+            Label : 'Purchase Items Information',
+            Target : 'Items/@UI.LineItem',
+        },
+
     ],    
 );
-annotate MarketDB.Purchase.Unique_SID with @(
-    UI.LineItem:[
-        {
-            Label: 'StoreID',
-            Value: store_id_ID
-        },
-       
-    ],
+annotate MarketDB.Purchase with {
+    bpno @(
+        Common.Text: bpno.name,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Business Partners',
+            CollectionPath : 'Bussiness_Partner',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : bpno_ID,
+                    ValueListProperty : 'ID'
+                },
+               {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'bpno'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name'
+                },
+            ]
+        }
+    )
+}
+annotate MarketDB.Sales with {
+    bpno @(
+        Common.Text: bpno.name,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Business Partners',
+            CollectionPath : 'Bussiness_Partner',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : bpno_ID,
+                    ValueListProperty : 'ID'
+                },
+               {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'bpno'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name'
+                },
+            ]
+        }
+    )
+}
 
-     UI.FieldGroup #PurchaseSID : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : store_id_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchaseSIDFacet',
-            Label : 'Unique_SID',
-            Target : '@UI.FieldGroup#PurchaseSID',
-        },
-    ],  
-);
-annotate MarketDB.Purchase.Unique_BPNUM with @(
-    UI.LineItem:[
-        {
-            Label: 'Bussiness Partner',
-            Value: bpno_ID
-        },
-       
-    ],
 
-     UI.FieldGroup #PurchaseBPNUM : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : bpno_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchaseBPNUMFacet',
-            Label : 'Unique_BPNUM',
-            Target : '@UI.FieldGroup#PurchaseBPNUM',
-        },
-    ],  
-);
-/*annotate MarketDB.Purchase.Unique_Price with @(
-    UI.LineItem:[
-        {
-            Label: 'Bussiness Partner',
-            Value: price_ID
-        },
-       
-    ],
-
-     UI.FieldGroup #PurchasePrice : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : price_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchasePriceFacet',
-            Label : 'Unique_Price',
-            Target : '@UI.FieldGroup#PurchasePrice',
-        },
-    ],  
-);*/
-annotate MarketDB.Purchase.Unique_PID with @(
-    UI.LineItem:[
-        {
-            Label: 'ProductID',
-            Value: product_id_ID
-        },
-       
-    ],
-
-     UI.FieldGroup #PurchasePID : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value : product_id_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchasePIDFacet',
-            Label : 'Unique_PID',
-            Target : '@UI.FieldGroup#PurchasePID',
-        },
-    ],  
-);
-annotate MarketDB.Purchase.Unique_Qty with @(
-    UI.LineItem:[
-        {
-            Label: 'Stock Quntity',
-            Value: stock_qty_ID
-        },
-       
-    ],
-
-     UI.FieldGroup #PurchaseQty : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                Value :stock_qty_ID,
-            }
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'PurchaseQtyFacet',
-            Label : 'Unique_Qty',
-            Target : '@UI.FieldGroup#PurchaseQty',
-        },
-    ],  
-);
-annotate MarketDB.Unique_SID with @(
+annotate MarketDB.Sales with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
-            
-            Value : code
+            Value : sod
         },
         {
             $Type : 'UI.DataField',
-            
-            Value : description
-        }
-    ],  
+            Value : bpno_ID
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : sales_date
+        },
+    ],
+    UI.SelectionFields: [ ],       
 );
 
-annotate MarketDB.Unique_SID with @(       
-    UI.FieldGroup #Unique_SIDInformation : {
+annotate MarketDB.Sales with @(
+    UI.FieldGroup #SalesInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            {
+             {
             $Type : 'UI.DataField',
-            
-            Value : code
+            Value : sod
         },
         {
             $Type : 'UI.DataField',
-            
-            Value : description
-        }
+            Value : bpno_ID
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : sales_date
+        },
         ],
     },
-
-
-    UI.Facets : [
+   UI.Facets : [
         {
             $Type : 'UI.ReferenceFacet',
-            ID : 'Unique_SIDInfoFacet',
-            Label : 'Unique_SID Information',
-            Target : '@UI.FieldGroup#Unique_SIDInformation',
+            ID : 'SalesInfoFacet',
+            Label : 'Sales Information',
+            Target : '@UI.FieldGroup#SalesInformation',
         },
-        
-        
-        
-    ],    
-);
-annotate MarketDB.Unique_Qty with @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-    ],  
-);
-
-annotate MarketDB.Unique_Qty with @(       
-    UI.FieldGroup #Unique_QtyInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-        ],
-    },
-
-
-    UI.Facets : [
         {
             $Type : 'UI.ReferenceFacet',
-            ID : 'Unique_QtyInfoFacet',
-            Label : 'Unique_Qty Information',
-            Target : '@UI.FieldGroup#Unique_QtyInformation',
+            ID : 'ItemsFacet',
+            Label : 'Items',
+            Target : 'Items/@UI.LineItem',
         },
-    
     ],    
 );
-annotate MarketDB.Unique_BPNUM with @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-    ],  
-);
-annotate MarketDB.Unique_BPNUM with @(       
-    UI.FieldGroup #Unique_BPNUMInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-        ],
-    },
 
-
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'Unique_BPNUMInfoFacet',
-            Label : 'Unique_BPNUM Information',
-            Target : '@UI.FieldGroup#Unique_BPNUMInformation',
-        },
-        
-        
-        
-    ],    
-);
-/*annotate MarketDB.Unique_Price with @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-    ],  
-);
-annotate MarketDB.Unique_Price with @(       
-    UI.FieldGroup #Unique_PriceInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-        ],
-    },
-
-
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'Unique_PriceInfoFacet',
-            Label : 'Unique_Price Information',
-            Target : '@UI.FieldGroup#Unique_PriceInformation',
-        },
-        
-        
-        
-    ],    
-);*/
-annotate MarketDB.Unique_PID with @(
-    UI.LineItem: [
-        {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-    ],  
-);
-annotate MarketDB.Unique_PID with @(       
-    UI.FieldGroup #Unique_PIDInformation : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-            $Type : 'UI.DataField',
-            
-            Value : code
-        },
-        {
-            $Type : 'UI.DataField',
-            
-            Value : description
-        }
-        ],
-    },
-
-
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'Unique_PIDInfoFacet',
-            Label : 'Unique_PID Information',
-            Target : '@UI.FieldGroup#Unique_PIDInformation',
-        },
-        
-        
-        
-    ],    
-);
 annotate MarketDB.State with @(
     UI.LineItem: [
        {
@@ -818,292 +537,60 @@ annotate MarketDB.State with @(
         },  
     ],
 );
-annotate MarketDB.Stock  with {
+annotate MarketDB.Stock with {
     store_id @(
-        Common.Text: store_id.description,
+        Common.Text: store_id.store_id,
         Common.TextArrangement: #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList : {
-            Label: 'Store ID',
-            CollectionPath : 'Unique_SID',
-            Parameters: [
+            Label: 'Stores',
+            CollectionPath : 'Store',
+            Parameters     : [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
                     LocalDataProperty : store_id_ID,
                     ValueListProperty : 'ID'
                 },
+               
                 {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
+                    ValueListProperty : 'store_id'
                 },
-                {
+                   {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
+                    ValueListProperty : 'name'
+                }
             ]
         }
-    )
-};
-annotate MarketDB.Stock  with {
-    stock_qty @(
-        Common.Text: stock_qty.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Stock QTY',
-            CollectionPath : 'Unique_Qty',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : stock_qty_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Purchase.Unique_SID with {
-    store_id @(
-        Common.Text: store_id.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Store ID',
-            CollectionPath : 'Unique_SID',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : store_id_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Purchase.Unique_BPNUM with {
-    bpno @(
-        Common.Text: bpno.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Bussiness Partner',
-            CollectionPath : 'Unique_BPNUM',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : bpno_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-/*annotate MarketDB.Purchase.Unique_Price with {
-    price @(
-        Common.Text: price.description,
-        Common.TextArrangement: #TextOnly,
-        //Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Product Price',
-            CollectionPath : 'Unique_Price',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : price_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};*/
-annotate MarketDB.Purchase.Unique_PID with {
+    );
     product_id @(
-        Common.Text: product_id.description,
+        Common.Text: product_id.product_id,
         Common.TextArrangement: #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList : {
-            Label: 'Product ID',
-            CollectionPath : 'Unique_PID',
-            Parameters: [
+            Label: 'Products',
+            CollectionPath : 'Product',
+            Parameters     : [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
                     LocalDataProperty : product_id_ID,
                     ValueListProperty : 'ID'
                 },
+               
                 {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
+                    ValueListProperty : 'product_id'
                 },
-                {
+                   {
                     $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
+                    ValueListProperty : 'product_name'
+                }
             ]
         }
     )
-};
-annotate MarketDB.Purchase.Unique_Qty with {
-    stock_qty @(
-        Common.Text: stock_qty.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Stock Quantity',
-            CollectionPath : 'Unique_Qty',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : stock_qty_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Stock  with {
-    product_id @(
-        Common.Text: product_id.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Product ID',
-            CollectionPath : 'Unique_PID',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : product_id_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Product with {
-    product_id @(
-        Common.Text: product_id.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Product ID',
-            CollectionPath : 'Unique_PID',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : product_id_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Store  with {
-    store_id @(
-        Common.Text: store_id.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Store ID',
-            CollectionPath : 'Unique_SID',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : store_id_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
-annotate MarketDB.Bussiness_Partner  with {
-    bpno @(
-        Common.Text: bpno.description,
-        Common.TextArrangement: #TextOnly,
-        Common.ValueListWithFixedValues: true,
-        Common.ValueList : {
-            Label: 'Bussiness Partner ',
-            CollectionPath : 'Unique_BPNUM',
-            Parameters: [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : bpno_ID,
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'code'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'description'
-                },
-            ]
-        }
-    )
-};
+}
+
+
 annotate MarketDB.Bussiness_Partner with {
     state @(     
         Common.ValueListWithFixedValues: true,
@@ -1155,6 +642,215 @@ annotate MarketDB.Product with {
     @Core.MediaType:'image/jpg' 
     product_img
 };
+annotate MarketDB.Purchase.Items with @(
+    UI.LineItem:[
+        
+        {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+    ],
+
+     UI.FieldGroup #PurchaseItems : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: qty
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'ItemsFacet',
+            Label : 'Items',
+            Target : '@UI.FieldGroup#PurchaseItems',
+        },
+    ],  
+);
+
+annotate MarketDB.Purchase.Items with {
+    store_id @(
+        Common.Text: store_id.store_id,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Stores',
+            CollectionPath : 'Store',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : store_id_ID,
+                    ValueListProperty : 'ID'
+                },
+               
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'store_id'
+                },
+                   {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name'
+                }
+            ]
+        }
+    );
+    product_id @(
+        Common.Text: product_id.product_id,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Products',
+            CollectionPath : 'Product',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : product_id_ID,
+                    ValueListProperty : 'ID'
+                },
+               
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'product_id'
+                },
+                   {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'product_name'
+                }
+            ]
+        }
+    )
+};
+annotate MarketDB.Sales.Items with @(
+    UI.LineItem:[
+        
+        {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: stock_qty_ID
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+    ],
+
+     UI.FieldGroup #SalesItems : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            Label: 'Product ID',
+            Value: product_id_ID
+        },
+        {
+            Label: 'Quantity',
+            Value: stock_qty_ID
+        },
+        {
+            Label: 'Price',
+            Value: price
+        },
+       {
+            Label: 'Store',
+            Value: store_id_ID
+        },
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'ItemsFacet',
+            Label : 'Items',
+            Target : '@UI.FieldGroup#SalesItems',
+        },
+    ],  
+);
+
+annotate MarketDB.Sales.Items with {
+    store_id @(
+        Common.Text: store_id.store_id,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Stores',
+            CollectionPath : 'Store',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : store_id_ID,
+                    ValueListProperty : 'ID'
+                },
+               
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'store_id'
+                },
+                   {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name'
+                }
+            ]
+        }
+    );
+    product_id @(
+        Common.Text: product_id.product_id,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Products',
+            CollectionPath : 'Product',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : product_id_ID,
+                    ValueListProperty : 'ID'
+                },
+               
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'product_id'
+                },
+                   {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'product_name'
+                }
+            ]
+        }
+    )
+};
+
 
 
 

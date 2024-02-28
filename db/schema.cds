@@ -7,7 +7,7 @@ using {managed, cuid } from '@sap/cds/common';
 entity Bussiness_Partner: cuid ,managed {
     
     @title:'Bussiness Partner Number' 
-    bpno: Association to Unique_BPNUM;
+    bpno: String;
     @title:'City'
     city:String(10) ;
     @title:'Name'
@@ -40,7 +40,7 @@ entity State {
 }
 entity Store : cuid, managed {
     @title: 'StoreID'
-    store_id: Association to Unique_SID ;
+    store_id: String ;
     @title: 'Name'
     name: String(20) ;
     @title: 'Address1'  
@@ -58,11 +58,11 @@ entity Store : cuid, managed {
 
 entity Product : cuid, managed {
     @title: 'ProductID'
-    product_id: Association to Unique_PID;
+    product_id: String;
     @title: 'Product Name'
     product_name: String(20) ;
     @title: 'Product Image URL'
-    product_img: String;
+    product_img: String default 'https://tse4.mm.bing.net/th?id=OIP.soJAxi0vZKiekRIwv4LOmwHaJ_&pid=Api&P=0&h=220';
     @title: 'Product Cost Price'
     product_cost: Integer;
     @title: 'Product Sell Price'
@@ -70,72 +70,45 @@ entity Product : cuid, managed {
 }
 entity Stock : cuid, managed {
     @title: 'StoreID'
-    store_id: Association to Unique_SID;
+    store_id: Association to Store;
     @title: 'ProductID'
-    product_id: Association to Unique_PID ;
+    product_id: Association to Product ;
     @title: 'Stock QTY'  
-    stock_qty:Association to Unique_Qty;
+    stock_qty:Integer;
 }
-entity Unique_SID : cuid, managed {
-    @title: 'code'
-    code: String;
-    @title: 'description'
-    description: String;
-}
-entity Unique_PID : cuid, managed {
-    @title: 'code'
-    code: String;
-    @title: 'description'
-    description: String;
-}
-entity Purchase : cuid, managed {
-    @title: 'Purchase Order Number'
-    pono: String;
-    @title: 'Bussiness Partner'
-    Unique_BPNUM: Composition of many{
-        key ID:UUID;
-        bpno:Association to Unique_BPNUM;
+
+
+entity Purchase : cuid,managed {
+    @title : 'Purchase Order Number'
+    pono : Integer;
+    @title : 'Business Partner'
+    bpno : Association to Bussiness_Partner;
+    @title : 'Purchase order date'
+    pod : Date;
+    @title : 'Items'
+    Items : Composition of many {
+        key ID : UUID;
+        product_id : Association to Product;
+        qty : Integer;
+        price : Integer;
+        store_id : Association to Store;
     }
-    @title: 'Purchase Order Date'  
-    pod:Date;
-    @title:'ProductID'
-    Unique_PID: Composition of many{
-        key ID:UUID;
-        product_id:Association to Unique_PID;
-    } 
-    @title:'StoreID'
-    Unique_SID: Composition of many{
-        key ID:UUID;
-        store_id:Association to Unique_SID;
+}
+
+entity Sales : cuid,managed {
+    @title : 'Sales Order Number'
+    sod : Integer;
+    @title : 'Business Partner'
+    bpno : Association to Bussiness_Partner;
+    @title : 'Sales date'
+    sales_date : Date;
+    @title : 'Items'
+    Items : Composition of many {
+        key ID : UUID;
+        product_id : Association to Product;
+        stock_qty : Association to Stock;
+        price : Integer;
+        store_id : Association to Store;
     }
-    @title: 'Price'  
-    price:Integer; 
-    /*@title:'Price'
-    Unique_Price: Composition of many{
-        key ID:UUID;
-        price:Association to Unique_Price;
-    } */
-    @title:'Quantity'
-    Unique_Qty: Composition of many{
-        key ID:UUID;
-        stock_qty:Association to Unique_Qty;
-    } 
 }
-entity Unique_BPNUM : cuid, managed {
-    @title: 'code'
-    code: String;
-    @title: 'description'
-    description: String;
-}
-/*entity Unique_Price : cuid, managed {
-    @title: 'code'
-    code: String;
-    @title: 'description'
-    description: String;
-}*/
-entity Unique_Qty : cuid, managed {
-    @title: 'code'
-    code: String;
-    @title: 'description'
-    description: String;
-}
+

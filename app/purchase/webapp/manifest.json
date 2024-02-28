@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "transactionaldata",
+    "id": "purchase",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.12.2",
-      "toolsId": "1058836d-7500-43e5-b31e-3559cc9c2be1"
+      "toolsId": "6d4fd31c-b2a4-45c6-9ee4-e75d35b5d7a4"
     },
     "dataSources": {
       "mainService": {
@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.120.6",
+      "minUI5Version": "1.120.8",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -61,7 +61,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "transactionaldata.i18n.i18n"
+          "bundleName": "purchase.i18n.i18n"
         }
       },
       "": {
@@ -83,59 +83,69 @@
       "css": []
     },
     "routing": {
+      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "StockList",
-          "target": "StockList"
+          "name": "PurchaseList",
+          "target": "PurchaseList"
         },
         {
-          "pattern": "Stock({key}):?query:",
-          "name": "StockObjectPage",
-          "target": "StockObjectPage"
+          "pattern": "Purchase({key}):?query:",
+          "name": "PurchaseObjectPage",
+          "target": "PurchaseObjectPage"
+        },
+        {
+          "pattern": "Purchase({key})/Unique_PID({key2}):?query:",
+          "name": "Purchase_Unique_PIDObjectPage",
+          "target": "Purchase_Unique_PIDObjectPage"
         }
       ],
       "targets": {
-        "StockList": {
+        "PurchaseList": {
           "type": "Component",
-          "id": "StockList",
+          "id": "PurchaseList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "InitialLoad": "Enabled",
-              "contextPath": "/Stock",
+              "contextPath": "/Purchase",
               "variantManagement": "Page",
               "navigation": {
-                "Stock": {
+                "Purchase": {
                   "detail": {
-                    "route": "StockObjectPage"
-                  }
-                }
-              },
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "actions": {
-                    "stockext": {
-                      "press": "transactionaldata.ext.stockext.stockext.isStore",
-                      "visible": true,
-                      "enabled": true,
-                      "requiresSelection": true,
-                      "text": "is store"
-                    }
+                    "route": "PurchaseObjectPage"
                   }
                 }
               }
             }
           }
         },
-        "StockObjectPage": {
+        "PurchaseObjectPage": {
           "type": "Component",
-          "id": "StockObjectPage",
+          "id": "PurchaseObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Stock"
+              "contextPath": "/Purchase",
+              "navigation": {
+                "Unique_PID": {
+                  "detail": {
+                    "route": "Purchase_Unique_PIDObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Purchase_Unique_PIDObjectPage": {
+          "type": "Component",
+          "id": "Purchase_Unique_PIDObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Purchase/Unique_PID"
             }
           }
         }

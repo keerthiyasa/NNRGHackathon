@@ -1,8 +1,3 @@
-
-
-    
-    
-
 const cds = require('@sap/cds');
 module.exports = cds.service.impl(function () {
 
@@ -21,6 +16,7 @@ module.exports = cds.service.impl(function () {
             });
         }
     });
+    
     
     this.before("CREATE",  Bussiness_Partner, async (req) => {
         const { bpno,is_gstn_registered, gstn } = req.data;
@@ -50,7 +46,7 @@ module.exports = cds.service.impl(function () {
             });
         }
     });
-    
+
     
 
     this.on('READ', State, async(req) => {
@@ -65,9 +61,23 @@ module.exports = cds.service.impl(function () {
     });
     
 
-    
-      
+
+
 });
+
+
+
+    
+
+
+
+
+    
+    
+
+
+   
+
     
     
     

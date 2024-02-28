@@ -11,12 +11,13 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/ux-specification": "^1.120.3"
+    "@sap/ux-specification": "^1.120.4"
   },
   "scripts": {
     "start": "cds-serve",
     "watch-masterdata": "cds watch --open masterdata/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-transactionaldata": "cds watch --open transactionaldata/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-transactionaldata": "cds watch --open transactionaldata/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-purchase": "cds watch --open purchase/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "fiori": {
@@ -30,10 +31,11 @@
           "url": "db.sqlite"
         }
       }
-  }
+    }
   },
   "sapux": [
     "app/masterdata",
-    "app/transactionaldata"
+    "app/transactionaldata",
+    "app/purchase"
   ]
 }
