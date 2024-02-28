@@ -93,7 +93,9 @@ entity Purchase : cuid,managed {
         price : Integer;
         store_id : Association to Store;
     }
+        
 }
+
 
 entity Sales : cuid,managed {
     @title : 'Sales Order Number'
@@ -106,7 +108,7 @@ entity Sales : cuid,managed {
     Items : Composition of many {
         key ID : UUID;
         product_id : Association to Product;
-        stock_qty : Association to Stock;
+        qty : Integer;
         price : Integer;
         store_id : Association to Store;
     }

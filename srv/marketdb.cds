@@ -755,7 +755,7 @@ annotate MarketDB.Sales.Items with @(
         },
         {
             Label: 'Quantity',
-            Value: stock_qty_ID
+            Value: qty
         },
         {
             Label: 'Price',
@@ -776,7 +776,7 @@ annotate MarketDB.Sales.Items with @(
         },
         {
             Label: 'Quantity',
-            Value: stock_qty_ID
+            Value: qty
         },
         {
             Label: 'Price',

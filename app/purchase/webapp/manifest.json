@@ -144,6 +144,7 @@
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
+              "createMode": "inline",
               "editableHeaderContent": false,
               "contextPath": "/Purchase/Unique_PID"
             }
